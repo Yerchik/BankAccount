@@ -1,0 +1,28 @@
+.box{
+    width: 100px;
+    height: 100px;
+    background-color: beige;
+    border: 5px solid black;
+    border-radius: 15px;
+    margin: 20px;
+    padding: 40px;
+    float: left;
+}
+h2, p {
+    text-align: left;
+}
+table {
+    width: 50%;
+    border: 4px double black;
+    border-collapse: collapse;
+}
+th {
+    text-align: left;
+    background: #ccc; /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+}
+td {
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+}
