@@ -1,5 +1,7 @@
 package Yerchik.dao;
 
+import Yerchik.entity.Account;
+import Yerchik.entity.Currency;
 import Yerchik.entity.Transaction;
 
 import java.util.List;
@@ -13,7 +15,9 @@ public interface TransactionDao {
 
     Transaction findById(int id);
 
-    List<Transaction> findAll();
+    List<Transaction> findAll(Account account);
+
+    List<Transaction> findByLoginAndCurrency(Account account, Currency currency);
 
 
 }

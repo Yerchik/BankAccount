@@ -49,4 +49,5 @@ public class TypeOfTransaction {
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
+
 }

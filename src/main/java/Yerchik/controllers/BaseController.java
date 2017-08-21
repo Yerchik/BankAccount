@@ -6,6 +6,7 @@ import Yerchik.entity.Transaction;
 import Yerchik.services.AccountService;
 import Yerchik.services.CurrencyService;
 import Yerchik.services.TransactionService;
+import Yerchik.services.TypeOfTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ import java.util.List;
 public class BaseController {
 
     int idCurrencyNoMoney;
-    String  balans;
+    String balans;
     List<Transaction> transactionHistory = new ArrayList<Transaction>();
     @Autowired
     private AccountService accountService;
@@ -34,13 +35,16 @@ public class BaseController {
     private TransactionService transactionService;
     @Autowired
     private CurrencyService currencyService;
+    @Autowired
+    private TypeOfTransactionService typeOfTransaction;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET) // здесь связывается ява-сущность/entity - Commodity
-    // через сервис dao со страницей home.jsp
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model, Principal principal) {
 
         Account account = accountService.findByLogin(principal.getName());
         model.addAttribute("account", account);
+        currencyService.addList();
+        typeOfTransaction.addList();
         return "home";
     }
 
@@ -85,8 +89,7 @@ public class BaseController {
         int day = c.get(c.DAY_OF_MONTH);
         String date = day + " " + month + " " + year;
 
-        transactionService.add(amount, date,
-                transactionService.balansByCurrency(idCurrency, principal.getName()) + amount
+        transactionService.add(amount, date, transactionService.balansByCurrency(idCurrency, principal.getName()) + amount
                 , idCurrency, 1, principal.getName());
         return "redirect:/";
     }
@@ -107,6 +110,7 @@ public class BaseController {
         int month = c.get(c.MONTH) + 1;
         int day = c.get(c.DAY_OF_MONTH);
         String date = day + " " + month + " " + year;
+
         if (amount > transactionService.balansByCurrency(idCurrency, principal.getName())) {
             idCurrencyNoMoney = currencyService.findById(idCurrency).getId();
             balans = "" + transactionService.balansByCurrency(idCurrency, principal.getName());
@@ -121,7 +125,7 @@ public class BaseController {
     }
 
     @RequestMapping(value = "/noMoney", method = RequestMethod.GET)
-    public String noMoney(Model model){
+    public String noMoney(Model model) {
         Currency currency = currencyService.findById(idCurrencyNoMoney);
         model.addAttribute("currency", currency);
         model.addAttribute("balans", balans);
@@ -139,7 +143,7 @@ public class BaseController {
     }
 
     @RequestMapping(value = "/history", method = RequestMethod.POST)
-    public String historyForCurrency( @RequestParam("currency") int idCurrency, Principal principal) {
+    public String historyForCurrency(@RequestParam("currency") int idCurrency, Principal principal) {
         List<Transaction> transactions = transactionService.findByCurrency(idCurrency, principal.getName());
         transactionHistory = transactions;
         return "redirect:/history2";
@@ -148,7 +152,7 @@ public class BaseController {
     @RequestMapping(value = "/history2", method = RequestMethod.GET)
     public String history2(Model model) {
         List<Transaction> transactions = transactionHistory;
-        model.addAttribute("transactions" ,transactions);
+        model.addAttribute("transactions", transactions);
         return "history2";
     }
 

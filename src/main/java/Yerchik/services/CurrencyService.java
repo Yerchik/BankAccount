@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Yerchik on 08.03.2017.
  */
 public interface CurrencyService {
+    void addList();
     Currency findById(int id);
     List<Currency> findAll();
 }

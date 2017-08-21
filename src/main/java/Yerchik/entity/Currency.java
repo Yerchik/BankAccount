@@ -59,4 +59,5 @@ public class Currency {
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
+
 }

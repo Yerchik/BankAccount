@@ -1,6 +1,8 @@
 package Yerchik.dao.implementation;
 
 import Yerchik.dao.TransactionDao;
+import Yerchik.entity.Account;
+import Yerchik.entity.Currency;
 import Yerchik.entity.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +31,15 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Transactional
-    public List<Transaction> findAll() {
-        return entityManager.createQuery("SELECT c FROM Transaction c").getResultList();
+    public List<Transaction> findAll(Account account) {
+        return entityManager.createQuery("SELECT c FROM Transaction c where c.account = :acocunt")
+                .setParameter("acocunt", account).getResultList();
+    }
+
+    @Transactional
+    public List<Transaction> findByLoginAndCurrency(Account account, Currency currency) {
+        return entityManager.createQuery("select c from Transaction c where c.account = :acocunt and c.currency = :currency")
+                .setParameter("acocunt", account).setParameter("currency", currency).getResultList();
     }
 
 }

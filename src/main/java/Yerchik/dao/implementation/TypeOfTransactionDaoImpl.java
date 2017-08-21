@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Created by Yerchik on 07.03.2017.
@@ -21,4 +22,13 @@ public class TypeOfTransactionDaoImpl implements TypeOfTransactionDao {
     public TypeOfTransaction findById(int id) {
         return entityManager.find(TypeOfTransaction.class, id);
     }
+
+    @Transactional
+    public void addList(List<TypeOfTransaction> transactions) {
+        for (TypeOfTransaction transaction : transactions) {
+            entityManager.persist(transaction);
+        }
+    }
+
+
 }

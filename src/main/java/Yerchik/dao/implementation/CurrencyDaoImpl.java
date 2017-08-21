@@ -19,6 +19,13 @@ public class CurrencyDaoImpl implements CurrencyDao {
     private EntityManager entityManager;
 
     @Transactional
+    public void addList(List<Currency> currencys) {
+        for (Currency currency : currencys) {
+            entityManager.persist(currency);
+        }
+    }
+
+    @Transactional
     public Currency findById(int id) {
         return entityManager.find(Currency.class, id);
     }
